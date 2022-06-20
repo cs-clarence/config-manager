@@ -1,0 +1,46 @@
+{
+  "name": "nest-starter",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "npx vitest run",
+    "test:watch": "npx vitest watch",
+    "test:cov": "npx vitest run --coverage",
+    "lint": "npx eslint ./src",
+    "format": "npx prettier --write ./src",
+    "build": "npm run lint && vite build",
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc/core": "^1.2.203",
+    "@types/js-yaml": "^4.0.5",
+    "@types/merge-deep": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "c8": "^7.11.3",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
+    "tsconfig": "github:cs-clarence/tsconfig",
+    "typescript": "^4.7.3",
+    "vite": "^2.9.12",
+    "vite-node": "^0.15.1",
+    "vite-plugin-node": "^1.0.0",
+    "vite-tsconfig-paths": "^3.5.0",
+    "vitest": "^0.15.1"
+  },
+  "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "js-yaml": "^4.1.0",
+    "json5": "^2.2.1",
+    "merge-deep": "^3.0.3",
+    "dotenv": "^16.0.1"
+  }
+}
