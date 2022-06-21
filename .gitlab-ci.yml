@@ -10,6 +10,9 @@ install-deps-job:
   stage: install
   script:
     - npm install
+  artifacts:
+    paths:
+      - "node_modules"
 
 lint-test-job:
   stage: test
