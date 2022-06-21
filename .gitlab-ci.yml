@@ -21,7 +21,7 @@ unit-test-job:
   script:
     - npm run test
 
-build-job
+build-job:
   stage: build
   script:
     - npm run build
