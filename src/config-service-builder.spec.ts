@@ -1,4 +1,4 @@
-import { ConfigServiceBuilder } from "./config-service-builder";
+import { ConfigServiceBuilder } from "$config-service-builder";
 
 beforeAll(() => {
   process.env = {};

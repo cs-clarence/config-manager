@@ -62,7 +62,7 @@ describe("ConfigService", () => {
     it("should remove dashes from keys if the option removeKeyDashes\
     is turned on", async () => {
       const configService = new ConfigService(config, {
-        removeKeyDashes: true,
+        removeKeyHyphens: true,
       });
 
       expect(await configService.get("kebabcase")).toBe("baz");

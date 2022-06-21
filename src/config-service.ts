@@ -36,7 +36,7 @@ export type ConfigServiceOptions = {
    *
    *  @default false
    */
-  removeKeyDashes?: boolean;
+  removeKeyHyphens?: boolean;
 };
 
 export class ConfigService {
@@ -47,7 +47,7 @@ export class ConfigService {
     options: ConfigServiceOptions = {},
   ) {
     const defaultOptions: Required<ConfigServiceOptions> = {
-      removeKeyDashes: false,
+      removeKeyHyphens: false,
       removeKeyUnderscores: false,
       caseSensitiveKeys: false,
       validateClass: true,
@@ -61,7 +61,7 @@ export class ConfigService {
       );
     }
 
-    if (this._options.removeKeyDashes) {
+    if (this._options.removeKeyHyphens) {
       this._config = transformKeysRecursive(this._config, (key) =>
         key.replace("-", ""),
       );
