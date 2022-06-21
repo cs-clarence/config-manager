@@ -1,4 +1,5 @@
-image: node:latest
+default:
+  image: node:18.4.0-alpine
 
 stages:
   - install
@@ -18,13 +19,32 @@ lint-test-job:
   stage: test
   script:
     - npm run lint
+  dependencies:
+    - install-deps-job
 
 unit-test-job:
   stage: test
   script:
     - npm run test
+  dependencies:
+    - install-deps-job
 
 build-job:
   stage: build
   script:
     - npm run build
+  artifacts:
+    paths:
+      - "dist"
+  dependencies:
+    - install-deps-job
+
+deploy-npm:
+  stage: deploy
+  script:
+    - echo _auth=$NPMRC_PUBLISH_KEY >> .npmrc
+    - echo email=$NPMRC_EMAIL >> .npmrc
+    - echo always-auth=true >> .npmrc
+    - npm publish
+  dependencies:
+    - build-job
