@@ -1,47 +1,32 @@
 import { defineConfig } from "vitest/config";
-import { VitePluginNode } from "vite-plugin-node";
 import viteTsConfigPaths from "vite-tsconfig-paths";
+import path from "path";
 
 export default defineConfig(async () => {
   return {
-    server: {
-      port: 3000,
-    },
     build: {
+      lib: {
+        formats: ["cjs", "es"],
+        entry: path.resolve(__dirname, "./src/index.ts"),
+        fileName: (format) => `index.${format}.js`,
+      },
       target: "esnext",
       emptyOutDir: true,
       minify: true,
       rollupOptions: {
-        output: {
-          format: "esm",
-        },
+        external: [
+          "class-transformer",
+          "class-validator",
+          "js-yaml",
+          "json5",
+          "dotenv",
+          "merge-deep",
+        ],
       },
     },
     test: {
       globals: true,
     },
-    plugins: [
-      ...VitePluginNode({
-        adapter: "nest",
-        tsCompiler: "swc",
-        appPath: "./src/index.ts",
-        appName: "app",
-        exportName: "app",
-      }),
-      viteTsConfigPaths(),
-    ],
-    resolve: {
-      alias: {},
-    },
-    optimizeDeps: {
-      exclude: [
-        "@nestjs/microservices",
-        "@nestjs/websockets",
-        "cache-manager",
-        "class-transformer",
-        "class-validator",
-        "fastify-swagger",
-      ],
-    },
+    plugins: [viteTsConfigPaths()],
   };
 });

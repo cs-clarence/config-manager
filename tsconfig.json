@@ -1,6 +1,5 @@
 {
   "extends": "./node_modules/tsconfig/tsconfig.node.json",
-  "exclude": ["dist"],
 
   "include": [
     "src/**/*.ts",
@@ -10,7 +9,8 @@
     "src/**/*.cjs",
     "src/**/*.mjs",
     "src/**/*.json",
-    "src/**/*.(spec|test).ts"
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
   ],
 
   "compilerOptions": {
@@ -20,6 +20,6 @@
     "paths": {
       "$*": ["./src/*"]
     },
-    "outDir": "./dist"
+    "outDir": "dist"
   }
 }
