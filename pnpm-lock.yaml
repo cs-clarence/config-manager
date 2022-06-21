@@ -17,7 +17,6 @@ specifiers:
   merge-deep: ^3.0.3
   prettier: ^2.7.1
   tsc-alias: ^1.6.11
-  tsconfig: github:cs-clarence/tsconfig
   tslib: ^2.4.0
   typescript: ^4.7.4
   vite: ^2.9.12
@@ -26,8 +25,6 @@ specifiers:
   vitest: ^0.15.1
 
 dependencies:
-  class-transformer: 0.5.1
-  class-validator: 0.13.2
   dotenv: 16.0.1
   js-yaml: 4.1.0
   json5: 2.2.1
@@ -41,11 +38,12 @@ devDependencies:
   '@typescript-eslint/eslint-plugin': 5.29.0_qqmbkyiaixvppdwswpytuf2hgm
   '@typescript-eslint/parser': 5.29.0_b5e7v2qnwxfo6hmiq56u52mz3e
   c8: 7.11.3
+  class-transformer: 0.5.1
+  class-validator: 0.13.2
   eslint: 8.18.0
   eslint-config-prettier: 8.5.0_eslint@8.18.0
   prettier: 2.7.1
   tsc-alias: 1.6.11
-  tsconfig: github.com/cs-clarence/tsconfig/e56d97ca8f1f7b6734005f7af70d3df646e70250
   typescript: 4.7.4
   vite: 2.9.12
   vite-node: 0.15.1
@@ -446,7 +444,7 @@ packages:
   /class-transformer/0.5.1:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
     requiresBuild: true
-    dev: false
+    dev: true
 
   /class-validator/0.13.2:
     resolution: {integrity: sha512-yBUcQy07FPlGzUjoLuUfIOXzgynnQPPruyK1Ge2B74k9ROwnle1E+NxLWnUv5OLU8hA/qL5leAE9XnXq3byaBw==}
@@ -454,7 +452,7 @@ packages:
     dependencies:
       libphonenumber-js: 1.10.6
       validator: 13.7.0
-    dev: false
+    dev: true
 
   /cliui/7.0.4:
     resolution: {integrity: sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==}
@@ -1258,7 +1256,7 @@ packages:
 
   /libphonenumber-js/1.10.6:
     resolution: {integrity: sha512-CIjT100/SmntsUjsLVs2t3ufeN4KdNXUxhD07tH153pdbaCWuAjv0jK/gPuywR3IImB/U/MQM+x9RfhMs5XZiA==}
-    dev: false
+    dev: true
 
   /local-pkg/0.4.1:
     resolution: {integrity: sha512-lL87ytIGP2FU5PWwNDo0w3WhIo2gopIAxPg9RxDYF7m4rr5ahuZxP22xnJHIvaLTe4Z9P6uKKY2UHiwyB4pcrw==}
@@ -1768,7 +1766,7 @@ packages:
   /validator/13.7.0:
     resolution: {integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==}
     engines: {node: '>= 0.10'}
-    dev: false
+    dev: true
 
   /vite-node/0.15.1:
     resolution: {integrity: sha512-QRoW+wdrNdZWOOAHaSf5pOjyelezVUhmkTQPuGVXzcPs4hoy1aKj6Hclin24asOrPCf0PnNXEc9R5/CURCT/yg==}
@@ -1917,10 +1915,4 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-    dev: true
-
-  github.com/cs-clarence/tsconfig/e56d97ca8f1f7b6734005f7af70d3df646e70250:
-    resolution: {tarball: https://codeload.github.com/cs-clarence/tsconfig/tar.gz/e56d97ca8f1f7b6734005f7af70d3df646e70250}
-    name: '@rencedm112/tsconfig'
-    version: 1.0.2
     dev: true
