@@ -3,8 +3,10 @@
   "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"],
 
   "compilerOptions": {
+    "incremental": false,
+    "tsBuildInfoFile": null,
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "./dist/types"
+    "outDir": "./dist/types",
+    "emitDeclarationOnly": true
   }
 }
