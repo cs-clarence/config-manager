@@ -1,33 +1,28 @@
 default:
-  image: node:18.4.0
+  before_script:
+    - npm install
+  image: node:lts
+  cache:
+    key:
+      files:
+        - package.lock.json
+      paths:
+        - node_modules
 
 stages:
-  - install
   - test
   - build
-  - deploy
-
-install-deps-job:
-  stage: install
-  script:
-    - npm install
-  artifacts:
-    paths:
-      - "node_modules"
+  - publish
 
 lint-test-job:
   stage: test
   script:
     - npm run lint
-  dependencies:
-    - install-deps-job
 
 unit-test-job:
   stage: test
   script:
     - npm run test
-  dependencies:
-    - install-deps-job
 
 build-job:
   stage: build
@@ -38,11 +33,9 @@ build-job:
     paths:
       - "dist"
       - ".npmrc"
-  dependencies:
-    - install-deps-job
 
-deploy-npm:
-  stage: deploy
+publish-npm:
+  stage: publish
   script:
     - npm publish --access public
   dependencies:
