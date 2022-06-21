@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@rencedm112/tsconfig': ^1.0.2
   '@types/js-yaml': ^4.0.5
   '@types/merge-deep': ^3.0.0
   '@typescript-eslint/eslint-plugin': ^5.29.0
@@ -34,6 +35,7 @@ dependencies:
   tslib: 2.4.0
 
 devDependencies:
+  '@rencedm112/tsconfig': 1.0.2
   '@types/js-yaml': 4.0.5
   '@types/merge-deep': 3.0.0
   '@typescript-eslint/eslint-plugin': 5.29.0_qqmbkyiaixvppdwswpytuf2hgm
@@ -43,7 +45,7 @@ devDependencies:
   eslint-config-prettier: 8.5.0_eslint@8.18.0
   prettier: 2.7.1
   tsc-alias: 1.6.11
-  tsconfig: github.com/cs-clarence/tsconfig/55acc590b67e0c2ad55eda30b96b706272e16022
+  tsconfig: github.com/cs-clarence/tsconfig/e56d97ca8f1f7b6734005f7af70d3df646e70250
   typescript: 4.7.4
   vite: 2.9.12
   vite-node: 0.15.1
@@ -132,6 +134,10 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
+    dev: true
+
+  /@rencedm112/tsconfig/1.0.2:
+    resolution: {integrity: sha512-3X2+nKYitaecHiVzjihU0dgOPKS8pMmMN0OAcKKZ96McIX6JmyIJ/tyQWuNSya/qQC9sewbLL1hnTOjEJOpe6g==}
     dev: true
 
   /@types/chai-subset/1.3.3:
@@ -1913,8 +1919,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/cs-clarence/tsconfig/55acc590b67e0c2ad55eda30b96b706272e16022:
-    resolution: {tarball: https://codeload.github.com/cs-clarence/tsconfig/tar.gz/55acc590b67e0c2ad55eda30b96b706272e16022}
-    name: tsconfig
+  github.com/cs-clarence/tsconfig/e56d97ca8f1f7b6734005f7af70d3df646e70250:
+    resolution: {tarball: https://codeload.github.com/cs-clarence/tsconfig/tar.gz/e56d97ca8f1f7b6734005f7af70d3df646e70250}
+    name: '@rencedm112/tsconfig'
     version: 1.0.2
     dev: true

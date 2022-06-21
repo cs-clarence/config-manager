@@ -23,6 +23,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rencedm112/tsconfig": "^1.0.2",
     "@types/js-yaml": "^4.0.5",
     "@types/merge-deep": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
@@ -32,7 +33,6 @@
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
     "tsc-alias": "^1.6.11",
-    "tsconfig": "github:cs-clarence/tsconfig",
     "typescript": "^4.7.4",
     "vite": "^2.9.12",
     "vite-node": "^0.15.1",

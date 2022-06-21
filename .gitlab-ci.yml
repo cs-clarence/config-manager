@@ -32,19 +32,18 @@ unit-test-job:
 build-job:
   stage: build
   script:
+    - echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" >> .npmrc
     - npm run build
   artifacts:
     paths:
       - "dist"
+      - ".npmrc"
   dependencies:
     - install-deps-job
 
 deploy-npm:
   stage: deploy
   script:
-    - echo _auth=$NPMRC_PUBLISH_TOKEN >> .npmrc
-    - echo email=$NPMRC_EMAIL >> .npmrc
-    - echo always-auth=true >> .npmrc
     - npm publish --access public
   dependencies:
     - build-job
