@@ -16,7 +16,7 @@
     "test:cov": "npx vitest run --coverage",
     "lint": "npx eslint ./src",
     "format": "npx prettier --write ./src",
-    "build": "npm run lint && npx vite build && npx tsc -p ./tsconfig.types.json && npx tsc-alias -p tsconfig.types.json",
+    "build": "npx vite build && npx tsc -p ./tsconfig.types.json && npx tsc-alias -p tsconfig.types.json",
     "dev": "npx vite"
   },
   "keywords": [],

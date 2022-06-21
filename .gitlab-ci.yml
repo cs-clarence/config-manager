@@ -1,0 +1,27 @@
+image: node:latest
+
+stages:
+  - install
+  - test
+  - build
+  - deploy
+
+install-deps-job:
+  stage: install
+  script:
+    - npm install
+
+lint-test-job:
+  stage: test
+  script:
+    - npm run lint
+
+unit-test-job:
+  stage: test
+  script:
+    - npm run test
+
+build-job
+  stage: build
+  script:
+    - npm run build
