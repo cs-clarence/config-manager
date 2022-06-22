@@ -25,7 +25,7 @@ type AddConfigArgs = {
   namespace?: string;
 };
 
-type AddEnvConfigArgs = AddConfigArgs & WithNesting;
+type AddObjectConfigArgs = AddConfigArgs & WithNesting;
 
 type AddFileConfigArgs = AddConfigArgs & {
   /**
@@ -46,7 +46,7 @@ type WithNesting = {
    *
    * ### EXAMPLE:
    *
-   * If the file contains a variable named `FOO__BAR=baz`, the value of the
+   * If the config contains a key named `FOO__BAR=baz`, the value of the
    * config object will have a property named `FOO` which is an object containing
    * a property named `BAR` with the value `baz`.
    *
@@ -54,21 +54,27 @@ type WithNesting = {
   nesting?: boolean;
 };
 
-type ConfigFileLoadJob = AddFileConfigArgs & WithLoader;
+type ObjectConfigJob = AddObjectConfigArgs & {
+  type: "object-load-job";
+  object: Record<string, unknown>;
+};
 
-type DotEnvConfigFileLoadJob = AddDotEnvFileConfigArgs & WithLoader;
+type ConfigFileLoadJob = AddFileConfigArgs &
+  WithLoader & {
+    type: "config-file-load-job";
+  };
 
-type ConfigServiceBuilderOptions = ConfigServiceOptions;
+type DotEnvConfigFileLoadJob = AddDotEnvFileConfigArgs &
+  WithLoader & {
+    type: "dot-env-config-file-load-job";
+  };
 
 export class ConfigServiceBuilder {
-  private _fileLoadJobs: ConfigFileLoadJob[] = [];
-  private _dotEnvfileLoadJobs: DotEnvConfigFileLoadJob[] = [];
-  private _keyValues: Record<string, unknown> = {};
-
-  private _envVarOpts: AddEnvConfigArgs = {};
-  private _envVars: Record<string, unknown> = {};
-
-  constructor(private _options: ConfigServiceBuilderOptions = {}) {}
+  private _jobs: (
+    | ConfigFileLoadJob
+    | DotEnvConfigFileLoadJob
+    | ObjectConfigJob
+  )[] = [];
 
   private loadFile(filePath: string): string {
     return fs.readFileSync(filePath, { encoding: "utf-8" });
@@ -90,98 +96,86 @@ export class ConfigServiceBuilder {
   }
 
   public addJsonFile(args: AddFileConfigArgs): ConfigServiceBuilder {
-    this._fileLoadJobs.push({
+    this._jobs.push({
       ...args,
       loader: (string) => this.loadConfigFromJsonFile(string),
+      type: "config-file-load-job",
     });
     return this;
   }
 
   public addYamlFile(args: AddFileConfigArgs): ConfigServiceBuilder {
-    this._fileLoadJobs.push({
+    this._jobs.push({
       ...args,
       loader: (string) => this.loadConfigFromYamlFile(string),
+      type: "config-file-load-job",
     });
     return this;
   }
 
   public addDotEnvFile(args: AddDotEnvFileConfigArgs): ConfigServiceBuilder {
-    this._dotEnvfileLoadJobs.push({
+    this._jobs.push({
       ...args,
       loader: (string) => this.loadConfigFromDotEnvFile(string),
+      type: "dot-env-config-file-load-job",
     });
     return this;
   }
 
-  public addEnvVars(args?: AddEnvConfigArgs): ConfigServiceBuilder {
-    this._envVarOpts = args ?? {};
-    this._envVars = process.env;
+  public addObject(
+    object: Record<string, unknown>,
+    args?: AddObjectConfigArgs,
+  ): ConfigServiceBuilder {
+    this._jobs.push({ ...args, object: object, type: "object-load-job" });
     return this;
   }
 
-  public addKeyValue(key: string, value: unknown): ConfigServiceBuilder {
-    this._keyValues[key] = value;
-    return this;
-  }
-
-  private isDotEnvConfigFileLoadJob(
-    loadJob: DotEnvConfigFileLoadJob | ConfigFileLoadJob,
-  ): loadJob is DotEnvConfigFileLoadJob {
-    return (
-      (loadJob as unknown as DotEnvConfigFileLoadJob).nesting !== undefined
-    );
-  }
-
-  public build(): ConfigService {
+  public build(options?: ConfigServiceOptions): ConfigService {
     let config: Record<string, unknown> = {};
 
-    const loadJobs: (DotEnvConfigFileLoadJob | ConfigFileLoadJob)[] = [
-      ...this._fileLoadJobs,
-      ...this._dotEnvfileLoadJobs,
-    ];
-
     // Add config from files
-    for (const job of loadJobs) {
-      const fileConfig = job.loader(job.filePath);
+    for (const job of this._jobs) {
+      let newConfigObject: Record<string, unknown>;
 
-      if (job.validator && !job.validator(fileConfig)) {
-        throw new Error(`Invalid config file: ${job.filePath}`);
+      switch (job.type) {
+        case "object-load-job":
+          {
+            newConfigObject = job.object;
+            if (job.nesting) {
+              newConfigObject = transformToNestedObject(newConfigObject);
+            }
+          }
+          break;
+        case "dot-env-config-file-load-job":
+          {
+            newConfigObject = job.loader(job.filePath);
+            if (job.nesting) {
+              newConfigObject = transformToNestedObject(newConfigObject);
+            }
+          }
+          break;
+        case "config-file-load-job":
+          {
+            newConfigObject = job.loader(job.filePath);
+          }
+          break;
       }
 
-      let fileConfigObject: Record<string, unknown>;
+      if (job.validator && !job.validator(newConfigObject)) {
+        throw new Error(
+          `Validation failed for config object ${JSON.stringify(
+            newConfigObject,
+          )}`,
+        );
+      }
 
       if (job.namespace) {
-        fileConfigObject = { [job.namespace]: fileConfig };
-      } else {
-        fileConfigObject = fileConfig;
+        newConfigObject = { [job.namespace]: newConfigObject };
       }
 
-      if (this.isDotEnvConfigFileLoadJob(job)) {
-        if (job.nesting) {
-          fileConfigObject = transformToNestedObject(fileConfigObject);
-        }
-      }
-
-      config = mergeDeep(config, fileConfigObject);
+      config = mergeDeep(config, newConfigObject);
     }
 
-    // Add environment variables
-    if (this._envVars) {
-      let envVars = this._envVars;
-
-      if (this._envVarOpts.nesting) {
-        envVars = transformToNestedObject(envVars);
-      }
-
-      if (this._envVarOpts.namespace) {
-        config = mergeDeep(config, {
-          [this._envVarOpts.namespace]: envVars,
-        });
-      } else {
-        config = mergeDeep(config, envVars);
-      }
-    }
-
-    return new ConfigService(config, this._options);
+    return new ConfigService(config, options);
   }
 }

@@ -8,11 +8,11 @@ beforeAll(() => {
 });
 
 describe("ConfigBuilder", () => {
-  describe("addEnvVars", () => {
+  describe("addObject", () => {
     it("should should add environmental variables to the config object", async () => {
       const configBuilder = new ConfigServiceBuilder();
 
-      const config = configBuilder.addEnvVars().build();
+      const config = configBuilder.addObject(process.env).build();
 
       expect(await config.get()).toEqual(
         expect.objectContaining({ FOO__BAR: "baz" }),
@@ -23,26 +23,26 @@ describe("ConfigBuilder", () => {
      named after the namespace", async () => {
       const configBuilder = new ConfigServiceBuilder();
 
-      const config = configBuilder.addEnvVars({ namespace: "env" }).build();
+      const config = configBuilder
+        .addObject(process.env, { namespace: "env" })
+        .build();
 
-      expect(await config.get()).toEqual(
-        expect.objectContaining({
-          env: expect.objectContaining({ FOO__BAR: "baz" }),
-        }),
-      );
+      expect(await config.get()).toMatchObject({
+        env: { FOO__BAR: "baz" },
+      });
     });
 
     it("with nesting option turned on will create a config object with nested\
      properties", async () => {
       const configBuilder = new ConfigServiceBuilder();
 
-      const config = configBuilder.addEnvVars({ nesting: true }).build();
+      const config = configBuilder
+        .addObject(process.env, { nesting: true })
+        .build();
 
-      expect(await config.get()).toEqual(
-        expect.objectContaining({
-          FOO: expect.objectContaining({ BAR: "baz" }),
-        }),
-      );
+      expect(await config.get()).toMatchObject({
+        FOO: { BAR: "baz" },
+      });
     });
   });
 

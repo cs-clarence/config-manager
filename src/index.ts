@@ -1,2 +1,2 @@
-export * from "$config-service-builder";
-export { ConfigService } from "$config-service";
+export { ConfigServiceBuilder } from "$config-service-builder";
+export { ConfigService, type ConfigServiceOptions } from "$config-service";
