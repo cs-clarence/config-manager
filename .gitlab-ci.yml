@@ -27,16 +27,15 @@ unit-test-job:
 build-job:
   stage: build
   script:
-    - echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" >> .npmrc
     - npm run build
   artifacts:
     paths:
       - "dist"
-      - ".npmrc"
 
 publish-npm:
   stage: publish
   script:
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_ACCESS_TOKEN}
     - npm publish --access public
   dependencies:
     - build-job
