@@ -11,7 +11,7 @@ export class CachedConfigService extends ConfigService {
 
   constructor(
     config: Record<string, unknown>,
-    options: ConfigServiceOptions = {},
+    private options: ConfigServiceOptions = {},
   ) {
     super(config, options);
   }
@@ -20,6 +20,10 @@ export class CachedConfigService extends ConfigService {
     key?: string | undefined,
     cls?: Class<T>,
   ): Promise<T | undefined> {
+    if (!this.options.caseSensitiveKeys) {
+      key = key?.toLowerCase();
+    }
+
     // Find if there is a cached value for the key and class
     const cachedClassMap = this._cache.get(key);
     if (cachedClassMap) {
