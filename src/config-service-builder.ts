@@ -4,9 +4,10 @@ import JSON5 from "json5";
 import dotenv from "dotenv";
 import mergeDeep from "merge-deep";
 import {
-  CachedConfigService as ConfigService,
+  CachedConfigService,
   ConfigServiceOptions,
 } from "$cached-config-service";
+import type { ConfigService} from "$config-service";
 import { transformToNestedObject } from "$util";
 
 type ValidatorFunction = (value: Record<string, unknown>) => boolean;
@@ -176,6 +177,6 @@ export class ConfigServiceBuilder {
       config = mergeDeep(config, newConfigObject);
     }
 
-    return new ConfigService(config, options);
+    return new CachedConfigService(config, options);
   }
 }
