@@ -1,7 +1,7 @@
 default:
+  image: node:lts-alpine
   before_script:
     - npm install
-  image: node:lts
   cache:
     key:
       files:

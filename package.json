@@ -1,6 +1,6 @@
 {
   "name": "@rencedm112/config-service",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "",
   "type": "module",
   "types": "dist/types/index.d.ts",
